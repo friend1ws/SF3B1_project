@@ -25,7 +25,7 @@ if [ ! -f ../data/recount2/TCGA.junction_id_with_transcripts.bed.gz ]
 then
     wget -P ../data/recount2 http://duffel.rail.bio/recount/TCGA/TCGA.junction_id_with_transcripts.bed.gz
     zcat ../data/recount2/TCGA.junction_id_with_transcripts.bed.gz > ../data/recount2/TCGA.junction_id_with_transcripts.bed
-    bgzip ../data/recount2/TCGA.junction_id_with_transcripts.bed
+    bgzip -f ../data/recount2/TCGA.junction_id_with_transcripts.bed
     tabix -p bed ../data/recount2/TCGA.junction_id_with_transcripts.bed.gz
 fi
 
