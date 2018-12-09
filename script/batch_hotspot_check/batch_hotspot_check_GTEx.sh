@@ -18,8 +18,8 @@ do
     BFILE=`basename ${TUMOR_BAM}`
     SAMPLE_NAME=${BFILE%%.Aligned.sortedByCoord.out.bam}
 
-    echo "hotspotCall -t 0.03 ${TUMOR_BAM} ${CONTROL_BAM} ../output/hotspot/GTEx/tmp1.txt ../db/GRCh37_SF3B1_hotspot.txt"
-    hotspotCall -t 0.03 ${TUMOR_BAM} ${CONTROL_BAM} ../output/hotspot/GTEx/tmp1.txt ../db/GRCh37_SF3B1_hotspot.txt 
+    echo "hotspotCall -t 0.02 ${TUMOR_BAM} ${CONTROL_BAM} ../output/hotspot/GTEx/tmp1.txt ../db/GRCh37_SF3B1_hotspot_omega.txt"
+    hotspotCall -t 0.02 ${TUMOR_BAM} ${CONTROL_BAM} ../output/hotspot/GTEx/tmp1.txt ../db/GRCh37_SF3B1_hotspot_omega.txt 
     sed -e '1d' ../output/hotspot/GTEx/tmp1.txt > ../output/hotspot/GTEx/tmp2.txt
     cat ../output/hotspot/GTEx/tmp2.txt
 
