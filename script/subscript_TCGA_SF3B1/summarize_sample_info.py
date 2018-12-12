@@ -42,11 +42,11 @@ with open(recount_TCGA_file, 'r') as hin:
         bw = F[header2ind["bigwig_file"]].replace(".bw", "")
         sample_name2 = F[header2ind["gdc_cases.samples.portions.analytes.aliquots.submitter_id"]]
         mapped_read_count = F[header2ind["mapped_read_count"]]
-        avg_read_length = F[header2ind["avg_read_length"]]
+        # avg_read_length = F[header2ind["avg_read_length"]]
  
         if sample_name2 not in sample_name2info: continue
 
-        bw2info[bw] = sample_name2info[sample_name2] + '\t' + mapped_read_count + '\t' + avg_read_length
+        bw2info[bw] = sample_name2info[sample_name2] + '\t' + mapped_read_count # + '\t' + avg_read_length
 
 
 with open(sample_id_file, 'r') as hin:

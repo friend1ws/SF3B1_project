@@ -46,7 +46,8 @@ with gzip.open(coverage_file, 'r') as hin:
                 key2count[key][1] = count
  
 
-print "Sample_ID" + '\t' + "Cancer_Type" + '\t' + "Sample_Name" + '\t' + "Mutation_Info" + '\t' + "Mapped_Read_Count" + '\t' + "Avg_Read_Length" + '\t' + "Splicing_Key" + '\t' + "Read_Count1" + '\t' + "Read_Count2" 
+# print "Sample_ID" + '\t' + "Cancer_Type" + '\t' + "Sample_Name" + '\t' + "Mutation_Info" + '\t' + "Mapped_Read_Count" + '\t' + "Avg_Read_Length" + '\t' + "Splicing_Key" + '\t' + "Read_Count1" + '\t' + "Read_Count2" 
+print "Sample_ID" + '\t' + "Cancer_Type" + '\t' + "Sample_Name" + '\t' + "Mutation_Info" + '\t' + "Mapped_Read_Count" + '\t' + "Splicing_Key" + '\t' + "Read_Count1" + '\t' + "Read_Count2"
 for key in key2count:
     print key + '\t' + key2count[key][0] + '\t' + key2count[key][1]
 
