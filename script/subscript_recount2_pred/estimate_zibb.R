@@ -13,7 +13,7 @@ get_prob_for_zibb <- function(params, s_n, s_k) {
   p_alpha <- params[1]
   p_beta <- params[2]
   p_pi <- params[3]
-  
+
   if (s_k == 0) {
     return(p_pi + (1 - p_pi) * dbetabinom.ab(0, s_n, p_alpha, p_beta))
   } else {
@@ -31,17 +31,18 @@ rownames(params) <- tparams[,1]
 
 # phenotype <- read.table("SRP033115.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 # D <- read.table("SRP033115.junction_coverage.filt.txt", sep = "\t", header = TRUE)
-D <- read.table(junc_file, sep = "\t", header = TRUE)
+D <- read.table(junc_file, sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 phenotype <- read.table(pheno_file, sep = "\t", quote = "", header = TRUE, comment.char = "@", stringsAsFactors = FALSE)
 
 
 scores <- c()
 
 for(n in 1:length(phenotype$run)) {
-  print(n)
+  
   run_name <- phenotype$run[n]
   tD <- D %>% filter(Sample_Name == run_name) 
-  
+  print(run_name)
+
   counts1 <- rep(0, nrow(params))
   counts2 <- rep(0, nrow(params))
   names(counts1) <- rownames(params)
@@ -50,7 +51,7 @@ for(n in 1:length(phenotype$run)) {
     counts1[tD$Splicing_Key] <- tD$Read_Count1
     counts2[tD$Splicing_Key] <- tD$Read_Count2
   }
-  
+
   probs <- c()
   for (j in 1:length(counts1)) {
     tparams <- params[names(counts1)[j],]

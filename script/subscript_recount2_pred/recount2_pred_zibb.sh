@@ -19,7 +19,7 @@ python subscript_recount2_pred/filter_junc2.py \
 Rscript subscript_recount2_pred/estimate_zibb.R \
     ${OUTPUT_DIR}/${PROJECT}.junction_coverage.filt.txt \
     ${OUTPUT_DIR}/${PROJECT}.tsv \
-    ../output/param/param_matrix.recount2.zibb.txt \
+    ../output/recount2/TCGA/param_matrix.recount2.zibb.txt \
     ${OUTPUT_DIR}/${PROJECT}.score.txt
 
 
