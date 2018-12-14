@@ -11,7 +11,8 @@ wget -P ${OUTPUT_DIR} ${RECOUNT_PATH}/${PROJECT}/${PROJECT}.tsv
 
 python subscript_recount2_pred/filter_junc2.py \
     ${OUTPUT_DIR}/${PROJECT}.junction_coverage.tsv.gz \
-    ${OUTPUT_DIR}/${PROJECT}.tsv ../output/param/param_matrix.recount2.zibb.txt \
+    ${OUTPUT_DIR}/${PROJECT}.tsv \
+    ../output/recount2/TCGA/param_matrix.recount2.zibb.txt \
     ../data/recount2/sample_ids.tsv > \
     ${OUTPUT_DIR}/${PROJECT}.junction_coverage.filt.txt
 
