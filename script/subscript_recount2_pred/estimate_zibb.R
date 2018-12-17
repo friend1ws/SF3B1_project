@@ -71,7 +71,6 @@ for(n in 1:length(phenotype$run)) {
   tlratios[tlratios < -20] <- -20
   tlratios[tlratios > 20] <- 20
   scores <- c(scores, sum(tlratios))
-  # scores <- c(scores, colSums(log(probs))[2] - colSums(log(probs))[1])
  
 }
 

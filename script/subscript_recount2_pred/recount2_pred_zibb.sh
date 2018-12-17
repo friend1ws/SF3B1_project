@@ -16,7 +16,6 @@ python subscript_recount2_pred/filter_junc2.py \
     ../data/recount2/sample_ids.tsv > \
     ${OUTPUT_DIR}/${PROJECT}.junction_coverage.filt.txt
 
-
 Rscript subscript_recount2_pred/estimate_zibb.R \
     ${OUTPUT_DIR}/${PROJECT}.junction_coverage.filt.txt \
     ${OUTPUT_DIR}/${PROJECT}.tsv \

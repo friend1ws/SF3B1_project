@@ -25,4 +25,7 @@ python subscript_TCGA_SF3B1/summarize_sample_info.py ../data/sample_list_files/ 
 
 python subscript_TCGA_SF3B1/summarize_count.py ../output/recount2/TCGA/my_sample_info.txt ../output/junc_list/sj_list_id.txt ../data/recount2/TCGA.junction_coverage.tsv.gz > ../output/recount2/TCGA/TCGA_recount_SF3B1_junction_summary.txt
 
+Rscript subscript_TCGA_SF3B1/classifier_recount_zibb.R
+
+Rscript subscript_TCGA_SF3B1/parameter_fitting_recount_TCGA_all_zibb.R
 
