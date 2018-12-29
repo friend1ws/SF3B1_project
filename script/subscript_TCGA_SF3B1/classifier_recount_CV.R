@@ -1,8 +1,10 @@
 library(tidyverse)
 
+args <- commandArgs(trailingOnly = TRUE)
+model <- args[1]
+
 source("subscript_zibb/zibb_functions.R")
 
-model <- args[1]
 
 D <- read_tsv("../output/recount2/TCGA/TCGA_recount_SF3B1_junction_summary.txt")
 
@@ -56,6 +58,7 @@ for (k in 1:2) {
                        "p" = c(mean(vector_k_0), mean(vector_k_1)),
                        "b" = c(sum(vector_k_0) / sum(vector_n_0), sum(vector_k_1) / sum(vector_n_1)),
                        "bb" = c(bb_optim(vector_n_0, vector_k_0)$par, bb_optim(vector_n_1, vector_k_1)$par),
+                       "zib" = c(zib_optim(vector_n_0, vector_k_0)$par, zib_optim(vector_n_1, vector_k_1)$par),
                        "zibb" = c(zibb_optim(vector_n_0, vector_k_0)$par, zibb_optim(vector_n_1, vector_k_1)$par)
         )
 
@@ -89,6 +92,9 @@ for (k in 1:2) {
                         "bb" = cbind(unlist(map(D_test %>% transpose(), function(x) {get_prob_for_bb(c(x$Param_1, x$Param_2), x$Read_Count1 + x$Read_Count2, x$Read_Count1)})),
                                      unlist(map(D_test %>% transpose(), function(x) {get_prob_for_bb(c(x$Param_3, x$Param_4), x$Read_Count1 + x$Read_Count2, x$Read_Count1)}))
                                      ),
+                        "zib" = cbind(unlist(map(D_test %>% transpose(), function(x) {get_prob_for_zib(c(x$Param_1, x$Param_2), x$Read_Count1 + x$Read_Count2, x$Read_Count1)})),
+                                      unlist(map(D_test %>% transpose(), function(x) {get_prob_for_zib(c(x$Param_3, x$Param_4), x$Read_Count1 + x$Read_Count2, x$Read_Count1)}))
+                                    ),
                         "zibb" = cbind(unlist(map(D_test %>% transpose(), function(x) {get_prob_for_zibb(c(x$Param_1, x$Param_2, x$Param_3), x$Read_Count1 + x$Read_Count2, x$Read_Count1)})),
                                        unlist(map(D_test %>% transpose(), function(x) {get_prob_for_zibb(c(x$Param_4, x$Param_5, x$Param_6), x$Read_Count1 + x$Read_Count2, x$Read_Count1)}))
                                     )
@@ -97,8 +103,8 @@ for (k in 1:2) {
         probs <- probs / rowSums(probs)
 
         tlratios <- log(probs[,2]) - log(probs[,1])
-        tlratios[tlratios < -100] <- -100
-        tlratios[tlratios > 100] <- 100
+        tlratios[tlratios < -20] <- -20
+        tlratios[tlratios > 20] <- 20
         tlratios[is.na(tlratios)] <- 0
         scores <- c(scores, sum(tlratios))
   
@@ -120,9 +126,9 @@ for (k in 1:2) {
 }
 
 
-write.table(params, paste("../output/recount2/TCGA/param_matrix.recount2.zibb.", model, ".txt", sep = ""), sep = "\t", col.names = FALSE, quote = FALSE)
+write.table(params, paste("../output/recount2/TCGA/param_matrix.recount2.", model, ".txt", sep = ""), sep = "\t", col.names = FALSE, quote = FALSE)
 
-write.table(Pred, paste("../output/recount2/TCGA/TCGA.pred.result.recount2.zibb.", model, ".txt"), sep = "\t", col.names = FALSE, quote = FALSE, row.names = FALSE)
+write.table(Pred, paste("../output/recount2/TCGA/TCGA.pred.result.recount2.", model, ".txt", sep = ""), sep = "\t", col.names = FALSE, quote = FALSE, row.names = FALSE)
 
 
 
