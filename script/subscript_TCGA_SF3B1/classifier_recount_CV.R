@@ -3,7 +3,7 @@ library(tidyverse)
 args <- commandArgs(trailingOnly = TRUE)
 model <- args[1]
 
-source("subscript_zibb/zibb_functions.R")
+source("subscript_model/model_functions.R")
 
 
 D <- read_tsv("../output/recount2/TCGA/TCGA_recount_SF3B1_junction_summary.txt")
