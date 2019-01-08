@@ -1,9 +1,9 @@
 library(tidyverse)
-# library(tidyr)
-# library(dplyr)
-# library(ggplot2)
 
-source("subscript_zibb/zibb_functions.R")
+args <- commandArgs(trailingOnly = TRUE)
+model <- args[1]
+
+source("subscript_model/model_functions.R")
 
 # D <- read.table("../output/recount2/TCGA/TCGA_recount_SF3B1_junction_summary.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 D <- read_tsv("../output/recount2/TCGA/TCGA_recount_SF3B1_junction_summary.txt")
@@ -26,7 +26,7 @@ training_sample_name <- all_sample_name
 # removing those having SF3B1 VUS mutations
 training_sample_name <- intersect(training_sample_name, unique(target_D$Sample_Name))
   
-tD <- D %>% filter(Sample_Name %in% training_sample_name) %>% 
+D_train <- D %>% filter(Sample_Name %in% training_sample_name) %>% 
 	mutate(status = ifelse(Mutation_Info != "None", 1, 0))
 
 params <- c()
@@ -34,26 +34,31 @@ junc <- c()
 
 for (i in 1:length(splicing_key_list)) {
   
-  tD2 <- tD %>% filter(Splicing_Key == splicing_key_list[i])
-  if (quantile(tD2$Read_Count2)[4] > 1000) next
-  if (sum(tD2$status) < 3) next
+  D_train_target <- D_train %>% filter(Splicing_Key == splicing_key_list[i])
+  if (sum(D_train_target$status) < 3) next
+  if (quantile(D_train_target$Read_Count2)[4] > 1000) next
 
-  ttD <- tD2 %>% group_by(status) %>% summarize(Ratio = mean(Read_Count1 / (Read_Count1 + Read_Count2 + 1)))
-  if (ttD$Ratio[ttD$status == 1] < ttD$Ratio[ttD$status == 0] * 3) next
-
+  D_train_target_sum <- D_train_target %>% group_by(status) %>% summarize(Ratio = mean(Read_Count1 / (Read_Count1 + Read_Count2 + 1)))
+  if (D_train_target_sum$Ratio[D_train_target_sum$status == 1] < D_train_target_sum$Ratio[D_train_target_sum$status == 0] * 3) next
 
   print(i)
+
+  class_ind <- D_train_target$status
+  vector_n_0 <- D_train_target$Read_Count1[class_ind == 0] + D_train_target$Read_Count2[class_ind == 0]
+  vector_k_0 <- D_train_target$Read_Count1[class_ind == 0]
   
-  class_ind <- tD2$status
-  vector_n <- tD2$Read_Count1[class_ind == 0] + tD2$Read_Count2[class_ind == 0]
-  vector_k <- tD2$Read_Count1[class_ind == 0]
-  cret0 <- zibb_optim(vector_n, vector_k)
-  
-  vector_n <- tD2$Read_Count1[class_ind == 1] + tD2$Read_Count2[class_ind == 1]
-  vector_k <- tD2$Read_Count1[class_ind == 1]
-  cret1 <- zibb_optim(vector_n, vector_k)
-  
-  params <- rbind(params, c(cret0$par, cret1$par))
+  vector_n_1 <- D_train_target$Read_Count1[class_ind == 1] + D_train_target$Read_Count2[class_ind == 1]
+  vector_k_1 <- D_train_target$Read_Count1[class_ind == 1]
+
+  tpar <- switch(model,
+                 "p" = c(mean(vector_k_0), mean(vector_k_1)),
+                 "b" = c(sum(vector_k_0) / sum(vector_n_0), sum(vector_k_1) / sum(vector_n_1)),
+                 "bb" = c(bb_optim(vector_n_0, vector_k_0)$par, bb_optim(vector_n_1, vector_k_1)$par),
+                 "zib" = c(zib_optim(vector_n_0, vector_k_0)$par, zib_optim(vector_n_1, vector_k_1)$par),
+                 "zibb" = c(zibb_optim(vector_n_0, vector_k_0)$par, zibb_optim(vector_n_1, vector_k_1)$par)
+  )
+        
+  params <- rbind(params, tpar) 
   junc <- c(junc, splicing_key_list[i])
 
 }
@@ -63,7 +68,7 @@ warnings()
 rownames(params) <- junc
 
 
-write.table(params, "../output/recount2/TCGA/param_matrix.recount2.zibb.txt", sep = "\t", col.names = FALSE, quote = FALSE)
+write.table(params, paste("../output/recount2/TCGA/param_matrix.recount2.", model, ".txt", sep = ""), sep = "\t", col.names = FALSE, quote = FALSE)
 
 
 

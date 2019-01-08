@@ -15,6 +15,7 @@ target_sample <- D %>%
   filter(grepl("SF3B1:K700|SF3B1:K666|SF3B1:H662|SF3B1:N626|SF3B1:R625|SF3B1:E622|SF3B1:G740|SF3B1:K741|SF3B1:G742|None", Mutation_Info)) %>%
   .$Sample_Name %>% unique()
 
+print(splicing_key_list[1])
 D_target <- D %>% filter(Sample_Name %in% target_sample) %>%
   filter(Splicing_Key %in% splicing_key_list[1]) %>% 
   mutate(status = ifelse(Mutation_Info != "None", "SF3B1 mt", "SF3B1 wt"))
