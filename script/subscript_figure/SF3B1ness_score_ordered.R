@@ -1,4 +1,5 @@
 library(ggplot2)
+library(dplyr)
 
 
 source("../conf/plot_config.R")
@@ -38,5 +39,5 @@ ggplot(B, aes(x = reorder(Sample_Name, desc(Score)), y = Score, fill = Mutation_
         legend.position = "bottom") +
   scale_fill_manual(values = c("#F8766D", "#00BA38", "grey70"))
 
-ggsave("../figure/SF3B1ness_score_ordered.tiff", width = 20, height = 6, dpi = 600, units = "cm")
+ggsave("../figure/SF3B1ness_score_ordered.tiff", width = 16, height = 6, dpi = 600, units = "cm")
 

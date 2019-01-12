@@ -1,4 +1,5 @@
 library(ggplot2)
+library(tidyverse)
 library(RColorBrewer)
 
 source("../conf/plot_config.R")
@@ -24,10 +25,11 @@ ggplot(A %>% filter(Mutation_Pos >= 580 & Mutation_Pos <= 820),
                      labels=c("600", "625", "666", "700", "740", "781")) +
   labs(x = "AA position", y = "SF3B1ness score", colour = "") +
   scale_colour_manual(values = c(brewer.pal(6, "Set2"), "grey60")) +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+  guides(colour = guide_legend(nrow = 1))
 
                       
-ggsave("../figure/SF3B1ness_score_aa_position.tiff", width = 20, height = 6, dpi = 600, units = "cm")
+ggsave("../figure/SF3B1ness_score_aa_position.tiff", width = 16, height = 6, dpi = 600, units = "cm")
 
 
                       
