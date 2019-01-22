@@ -22,7 +22,7 @@ D_target <- D %>% filter(Sample_Name %in% target_sample) %>%
 D_target$status <- factor(D_target$status, levels = c("SF3B1 wt", "SF3B1 mt"))
 
 ggplot(D_target, aes(x = Read_Count1 + Read_Count2, y = Read_Count1, colour = as.character(status))) +
-  geom_point(size = 0.7) +
+  geom_jitter(size = 0.7, width = 1, height = 0.1, alpha = 0.6) +
   my_theme() +
   facet_grid(.~status) +
   xlim(c(0, 400)) +
