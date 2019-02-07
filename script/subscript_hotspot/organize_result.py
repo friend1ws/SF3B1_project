@@ -7,11 +7,13 @@ hotspot_info_file = sys.argv[2]
 run_id_file = sys.argv[3]
 
 mutkey2aa = {}
+mutkey2count = {}
 with open(hotspot_info_file, 'r') as hin:
     for line in hin:
         F = line.rstrip('\n').split('\t')
         mutkey = '\t'.join(F[:5])
         mutkey2aa[mutkey] = F[7]
+        mutkey2count[mutkey] = F[9]
 
 run_id2info = {}
 with open(hotspot_check_file, 'r') as hin:
@@ -19,11 +21,12 @@ with open(hotspot_check_file, 'r') as hin:
         F = line.rstrip('\n').split('\t')
         mutkey = '\t'.join(F[1:6])
         mut_info = mutkey2aa[mutkey]
+        cosm_count = mutkey2count[mutkey]
         vaf = F[14]
         run_id = F[0]
 
         if run_id not in run_id2info: run_id2info[run_id] = []
-        run_id2info[run_id].append(mut_info + ',' + vaf)
+        run_id2info[run_id].append(mut_info + ',' + cosm_count + ',' + vaf)
 
         
 with open(run_id_file, 'r') as hin:
