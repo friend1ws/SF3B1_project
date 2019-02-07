@@ -42,6 +42,9 @@ liftOver ../output/junc_list/sj_list_alt.bed.tmp ../db/hg19ToHg38.over.chain ../
 # add junction id to SF3B1 associated splicing junction
 python subscript_organize_junc_list/add_id.py ../output/junc_list/sj_list_alt.bed ../output/junc_list/sj_list_ref.bed ../output/junc_list/sj_list_id.txt ../data/recount2/TCGA.junction_id_with_transcripts.bed.gz 
 
+# generate junction list information file for R package (still temporary file)
+python subscript_organize_junc_list/make_junc_list_for_package1.py ../output/junc_list/sj_list_alt.bed ../output/junc_list/sj_list_ref.bed ../output/junc_list/sj_list_for_package1.txt ../data/recount2/TCGA.junction_id_with_transcripts.bed.gz
+
 rm -rf ../output/junc_list/unmap_ref.bed
 rm -rf ../output/junc_list/sj_list_ref.bed.tmp
 rm -rf ../output/junc_list/sj_list_ref.bed
