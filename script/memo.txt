@@ -1,0 +1,9 @@
+# MEMO
+
+1. organize_junc_list.sh (generate SF3B1 associated alternative 3'SS)
+
+2. TCGA_SF3B1_junction_summary.sh (Cross validation and parameter fitting using TCGA data)
+
+3. batch_recount2_pred.sh  (Apply SF3B1ness score to screening SF3B1 mutations on recount2) 
+
+
