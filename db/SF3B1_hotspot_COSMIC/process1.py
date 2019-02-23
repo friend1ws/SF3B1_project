@@ -33,7 +33,8 @@ with open(input_file, 'r') as hin:
         match = re.search(r'^p.\w(\d+)\w$', mutation_aa)
         if match is None: continue
         mutation_aa_pos = match.group(1)
-        
+
+        if int(mutation_aa_pos) > 801 or int(mutation_aa_pos) < 604: continue        
         # if mutation_aa_pos2count[mutation_aa_pos] < 5: continue
 
         mutation_genome_position = F["MUTATION_GENOME_POSITION"]
