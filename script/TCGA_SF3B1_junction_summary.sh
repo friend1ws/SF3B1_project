@@ -25,9 +25,9 @@ python subscript_TCGA_SF3B1/summarize_sample_info.py ../data/sample_list_files/ 
 
 python subscript_TCGA_SF3B1/summarize_count.py ../output/recount2/TCGA/my_sample_info.txt ../output/junc_list/sj_list_id.txt ../data/recount2/TCGA.junction_coverage.tsv.gz > ../output/recount2/TCGA/TCGA_recount_SF3B1_junction_summary.txt
 
-python subscript_TCGA_SF3B1/join_for_package.py ../output/junc_list/sj_list_for_package1.txt ../output/recount2/TCGA/param_matrix.recount2.zibb.txt > ../output/junc_list/SF3B1_associated_junction_info.txt
-
 Rscript subscript_TCGA_SF3B1/classifier_recount_zibb.R
 
 Rscript subscript_TCGA_SF3B1/parameter_fitting_recount_TCGA_all_zibb.R
+
+python subscript_TCGA_SF3B1/join_for_package.py ../output/junc_list/sj_list_for_package1.txt ../output/recount2/TCGA/param_matrix.recount2.zibb.txt > ../output/junc_list/SF3B1_associated_junction_info.txt
 
