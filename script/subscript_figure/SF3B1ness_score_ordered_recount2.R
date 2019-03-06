@@ -1,7 +1,7 @@
 library(tidyverse)
 source("../conf/plot_config.R")
 
-D <- read_tsv("../output/sra/hotspot/SF3B1.hotspot.result.info2.txt") %>% filter(Bases >= 500000000) 
+D <- read_tsv("../output/sra/hotspot/SF3B1.hotspot.result.info2.txt") %>% filter(Bases >= 100000000) 
 
 scores <- c()
 run_id <- c()

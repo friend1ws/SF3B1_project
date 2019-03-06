@@ -29,5 +29,5 @@ D2[,3] <- round(D2[,3], 3)
 
 colnames(D2) <- c("Study_Accession", "Run_Accession", "SF3B1ness_Score", "Bases", "Study_Title", "Sample_Attribute")
 
-write.table(D2, output_file, sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+write.table(D2 %>% filter(Bases >= 100000000), output_file, sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
 
